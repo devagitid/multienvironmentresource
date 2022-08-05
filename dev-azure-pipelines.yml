@@ -13,6 +13,6 @@ pool:
 
 steps:
 
-- script: ll $(System.DefaultWorkingDirectory)
+- script: list $(System.DefaultWorkingDirectory)
 
 
