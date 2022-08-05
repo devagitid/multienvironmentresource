@@ -12,10 +12,27 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- script: 
+- task: TerraformCLI@0
+  inputs: 
+    command: 'init'
+    backendType: 'azurerm'
+    backendServiceArm: 'Azure resource'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: '$(backendrgname)'
+    backendAzureRmResourceGroupLocation: '$(backendrglocation)'
+    backendAzureRmStorageAccountName: '$(storageaccountname)'
+    backendAzureRmContainerName: '$(storagecontainername)'
+    backendAzureRmKey: '$(blobkey)'
+    allowTelemetryCollection: true
 
-- task: CmdLine@2
+- task: TerraformCLI@0
   inputs:
-    script: |
-      echo  '$(System.DefaultWorkingDirectory)'
-      dir
-      dir subfoldername
+    command: 'validate'
+    allowTelemetryCollection: false
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    commandOptions: '--vars-file=dev/dev.tfvars'
+    allowTelemetryCollection: true
