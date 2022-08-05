@@ -48,7 +48,7 @@ depends_on = [azurerm_databricks_workspace.databr]
 
 resource "azuread_application" "example" {
   display_name = "example"
-  owners       = var.object_id
+  owners       = [var.object_id]
 }
 
 resource "azuread_service_principal" "example" {
