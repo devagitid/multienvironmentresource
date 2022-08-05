@@ -16,5 +16,5 @@ provider "azurerm" {
 }
 
 provider "databricks" {
-azure_workspace_resource_id = azurerm_databricks_workspace.example.id
+azure_workspace_resource_id = azurerm_databricks_workspace.databr.id
 }
