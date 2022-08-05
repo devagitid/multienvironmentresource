@@ -1,0 +1,39 @@
+variables:
+ - group : terraformvariables
+
+trigger:
+  batch: true # batch changes if true (the default); start a new build for every push if false
+  branches:
+    include:
+      - master
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- script: 
+- task: TerraformCLI@0
+  inputs: 
+    command: 'init'
+    backendType: 'azurerm'
+    backendServiceArm: 'Azure resource'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: '$backendrgname'
+    backendAzureRmResourceGroupLocation: '$backendrglocation'
+    backendAzureRmStorageAccountName: '$storageaccountname'
+    backendAzureRmContainerName: '$storagecontainername'
+    backendAzureRmKey: '$blobkey'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'validate'
+    allowTelemetryCollection: false
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    commandOptions: '--vars-file=$(System.DefaultWorkingDirectory)/dev/dev'
+    allowTelemetryCollection: true
