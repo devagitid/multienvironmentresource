@@ -42,7 +42,7 @@ steps:
     - task: TerraformTaskV3@3
       inputs:
         provider: 'azurerm'
-        command: 'apply'
+        command: 'destroy'
         commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
         environmentServiceNameAzureRM: 'Azure resource'
 
