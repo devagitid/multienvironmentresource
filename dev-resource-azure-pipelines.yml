@@ -2,9 +2,9 @@ variables:
  - group : terraformvariables
 
 trigger:
-        branches:
-          include:
-            - master
+  branches:
+   include:
+   - master
 
 pr: none
 
@@ -12,37 +12,37 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-              - checkout: self
-              - task: TerraformInstaller@0
-                displayName: 'install'
-                inputs:
-                  terraformVersion: '0.13.3'
-              - task: TerraformTaskV1@0
-                displayName: 'init'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'init'
-                  backendServiceArm: 'Azure resource'
-                  backendAzureRmResourceGroupName: $(backendrgname)
-                  backendAzureRmStorageAccountName: '$(storageaccountname)'
-                  backendAzureRmContainerName: '$(storagecontainername)'
-                  backendAzureRmKey: '$(blobkey)'
-                  workingDirectory: '$(System.DefaultWorkingDirectory)'
-              - task: TerraformTaskV1@0
-                displayName: 'plan'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'plan'
-                  commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
-                  environmentServiceNameAzureRM: 'Azure resource'
-                  workingDirectory: '$(System.DefaultWorkingDirectory)'
-              - task: TerraformTaskV1@0
-                displayName: 'apply'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'apply'
-                  commandOptions: '-input=false -auto-approve -var-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
-                  environmentServiceNameAzureRM: 'Azure resource'
-                  workingDirectory: '$(System.DefaultWorkingDirectory)'       
+    - checkout: self
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
 
+    - task: TerraformTaskV3@3
+      inputs:
+       provider: 'azurerm'
+       command: 'init'
+       backendServiceArm: 'Azure resource'
+       backendAzureRmResourceGroupName: '$(backendrgname)'
+       backendAzureRmStorageAccountName: '$(storageaccountname)'
+       backendAzureRmContainerName: '$(devstoragecontainername)'
+       backendAzureRmKey: '$(devblobkey)'
+
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+    
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
+        environmentServiceNameAzureRM: 'Azure resource'
+
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
+        environmentServiceNameAzureRM: 'Azure resource'
 
