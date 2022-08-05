@@ -46,32 +46,30 @@ resource "databricks_cluster" "multi_node" {
 depends_on = [azurerm_databricks_workspace.databr]
 }
 
-data "azuread_client_config" "current" {}
-
 resource "azuread_application" "example" {
   display_name = "example"
-  owners       = [data.azuread_client_config.current.object_id]
+  owners       = var.object_id
 }
 
 resource "azuread_service_principal" "example" {
   application_id               = azuread_application.example.application_id
   app_role_assignment_required = false
-  owners                       = [data.azuread_client_config.current.object_id]
+  owners                       = var.object_id
 }
 
 resource "azurerm_key_vault" "kv" {
   name                       = "${var.environment}keyvaultqw"
   location                   = azurerm_resource_group.databrrg.location
   resource_group_name        = azurerm_resource_group.databrrg.name
-  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  tenant_id                  = tenant_id
   sku_name                   = "premium"
   soft_delete_retention_days = 7
 
 
   access_policy {
 
-    tenant_id               = data.azurerm_client_config.current.tenant_id
-    object_id               = data.azurerm_client_config.current.object_id
+    tenant_id               = var.tenant_id
+    object_id               = azuread_service_principal.example.object_id
     key_permissions         = ["Get", "List"]
     secret_permissions      = ["Get", "List"]
     certificate_permissions = ["Get", "Import", "List"]
