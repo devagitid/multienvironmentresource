@@ -3,7 +3,7 @@ terraform {
 }
 
 resource "azurerm_resource_group" "databrrg" {
-name = "$var.environment-rg"
+name = "${var.environment}-rg"
 location = var.resource_location
 }
 
