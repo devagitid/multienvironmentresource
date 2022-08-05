@@ -20,11 +20,11 @@ steps:
     backendType: 'azurerm'
     backendServiceArm: 'Azure resource'
     ensureBackend: true
-    backendAzureRmResourceGroupName: '$backendrgname'
-    backendAzureRmResourceGroupLocation: '$backendrglocation'
-    backendAzureRmStorageAccountName: '$storageaccountname'
-    backendAzureRmContainerName: '$storagecontainername'
-    backendAzureRmKey: '$blobkey'
+    backendAzureRmResourceGroupName: '$(backendrgname)'
+    backendAzureRmResourceGroupLocation: '$(backendrglocation)'
+    backendAzureRmStorageAccountName: '$(storageaccountname)'
+    backendAzureRmContainerName: '$(storagecontainername)'
+    backendAzureRmKey: '$(blobkey)'
     allowTelemetryCollection: true
 
 - task: TerraformCLI@0
@@ -35,5 +35,5 @@ steps:
 - task: TerraformCLI@0
   inputs:
     command: 'plan'
-    commandOptions: '--vars-file=$(System.DefaultWorkingDirectory)/dev/dev'
+    commandOptions: '--vars-file="$(System.DefaultWorkingDirectory)/dev/dev.tfvars"'
     allowTelemetryCollection: true
