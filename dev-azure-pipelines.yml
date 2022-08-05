@@ -34,5 +34,5 @@ steps:
 - task: TerraformCLI@0
   inputs:
     command: 'plan'
-    commandOptions: '--vars-file=dev/dev.tfvars'
+    commandOptions: '-var-file=$(System.DefaultWorkingDirectory)/dev/dev.tfvars'
     allowTelemetryCollection: true
