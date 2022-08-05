@@ -61,7 +61,7 @@ resource "azurerm_key_vault" "kv" {
   name                       = "${var.environment}keyvaultqw"
   location                   = azurerm_resource_group.databrrg.location
   resource_group_name        = azurerm_resource_group.databrrg.name
-  tenant_id                  = tenant_id
+  tenant_id                  = var.tenant_id
   sku_name                   = "premium"
   soft_delete_retention_days = 7
 
