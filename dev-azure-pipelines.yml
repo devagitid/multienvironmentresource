@@ -36,5 +36,5 @@ steps:
   inputs:
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
-    commandOptions: '--vars-file="/dev/dev.tfvars"'
+    commandOptions: '--vars-file="../dev/dev.tfvars"'
     allowTelemetryCollection: true
