@@ -13,7 +13,9 @@ pool:
 
 steps:
 
-- script: |
-  echo  '$(System.DefaultWorkingDirectory)'
-  dir
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo  '$(System.DefaultWorkingDirectory)'
+      dir
+      dir subfoldername
