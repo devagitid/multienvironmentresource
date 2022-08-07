@@ -1,11 +1,11 @@
-#terraform {
-#  backend azure {}
-#}
+terraform {
+  backend azure {}
+}
 
-#resource "azurerm_resource_group" "databrrg" {
-#name = "${var.environment}-rg"
-#location = var.resource_location
-#}
+resource "azurerm_resource_group" "databrrg" {
+name = "${var.environment}-rg"
+location = var.resource_location
+}
 
 #resource "azurerm_databricks_workspace" "databr" {
 #  name                = "databricks-${var.environment}"
