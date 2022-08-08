@@ -95,4 +95,5 @@ resource "azurerm_key_vault_secret" "kv" {
   name         = "clientid"
   value        = azuread_service_principal.example.application_id 
   key_vault_id = azurerm_key_vault.kv.id
+  depends_on = [azurerm_azurerm_key_vault.kv]
 }
