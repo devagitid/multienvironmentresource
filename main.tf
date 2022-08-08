@@ -54,7 +54,7 @@ resource "azuread_application" "example" {
 resource "azuread_service_principal" "example" {
  application_id               = azuread_application.example.application_id
   app_role_assignment_required = false
-  owners                       = [var.object_id]
+  #owners                       = [var.object_id]
 }
 
 resource "azurerm_key_vault" "kv" {
