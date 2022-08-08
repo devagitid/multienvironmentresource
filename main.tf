@@ -36,7 +36,7 @@ resource "databricks_cluster" "multi_node" {
   num_workers            = 2
 
   spark_conf = {
-     Multi-node
+    # Multi-node
     "spark.databricks.cluster.profile" : "MultiNode"
     "spark.master" : "local[*]"
   }
