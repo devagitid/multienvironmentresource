@@ -14,25 +14,11 @@ pool:
 steps:
     - checkout: self
 
-    - task: TerraformCLI@0
-      inputs:
-      command: 'init'
-      backendType: 'azurerm'
-      backendServiceArm: 'Azure resource'
-      ensureBackend: true
-      backendAzureRmResourceGroupName: '$(backendrgname)'
-      backendAzureRmResourceGroupLocation: '$( backendrglocation)'
-      backendAzureRmStorageAccountName: '$(storageaccountname)'
-      backendAzureRmContainerName: '$(devstoragecontainername)'
-      backendAzureRmKey: '$(devblobkey)'
-      allowTelemetryCollection: true'
       
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       inputs:
         terraformVersion: 'latest'
-    
-    
-
+        
     - task: TerraformTaskV3@3
       inputs:
        provider: 'azurerm'
