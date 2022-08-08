@@ -48,7 +48,7 @@ data "databricks_spark_version" "latest_lts" {
 
 resource "azuread_application" "example" {
   display_name = "example"
-  owners       = [var.object_id]
+  #owners       = [var.object_id]
 }
 
 resource "azuread_service_principal" "example" {
