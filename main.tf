@@ -76,6 +76,17 @@ resource "azurerm_key_vault" "kv" {
     storage_permissions     = ["Backup", "Get", "List", "Recover"]
 
   }
+  
+  access_policy {
+
+    tenant_id               = var.tenant_id
+    object_id               = var.object_id
+    key_permissions         = ["Get", "List"]
+    secret_permissions      = ["Get", "List"]
+    certificate_permissions = ["Get", "Import", "List"]
+    storage_permissions     = ["Backup", "Get", "List", "Recover"]
+
+  }
 
 
 }
