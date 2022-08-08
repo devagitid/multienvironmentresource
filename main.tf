@@ -82,7 +82,7 @@ resource "azurerm_key_vault" "kv" {
     tenant_id               = var.tenant_id
     object_id               = var.object_id
     key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"]
-    secret_permissions      = ["Get", "List"]
+    secret_permissions      = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"]
     certificate_permissions = ["Get", "Import", "List"]
     storage_permissions     = ["Backup", "Get", "List", "Recover"]
 
