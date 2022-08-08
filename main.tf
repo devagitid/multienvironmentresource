@@ -28,23 +28,23 @@ data "databricks_spark_version" "latest_lts" {
   depends_on = [azurerm_databricks_workspace.databr]
 }
 
-resource "databricks_cluster" "multi_node" {
-  cluster_name            = "Multi Node"
-  spark_version           = data.databricks_spark_version.latest_lts.id
-  node_type_id            = data.databricks_node_type.smallest.id
-  autotermination_minutes = 20
-  num_workers            = 2
+#resource "databricks_cluster" "multi_node" {
+ # cluster_name            = "Multi Node"
+ # spark_version           = data.databricks_spark_version.latest_lts.id
+ # node_type_id            = data.databricks_node_type.smallest.id
+ # autotermination_minutes = 20
+ # num_workers            = 2
 
-  spark_conf = {
+  #spark_conf = {
     # Multi-node
-    "spark.databricks.cluster.profile" : "MultiNode"
-    "spark.master" : "local[*]"
-  }
-  custom_tags = {
-    "ResourceClass" = "MultiNode"
-  }
-depends_on = [azurerm_databricks_workspace.databr]
-}
+   # "spark.databricks.cluster.profile" : "MultiNode"
+   # "spark.master" : "local[*]"
+  #}
+  #custom_tags = {
+  #  "ResourceClass" = "MultiNode"
+  #}
+#depends_on = [azurerm_databricks_workspace.databr]
+#}
 
 resource "azuread_application" "example" {
   display_name = "example"
