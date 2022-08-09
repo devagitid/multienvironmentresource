@@ -12,7 +12,7 @@ trigger:
     - test/test.tfvars
     exclude:
     - dev
-    - test
+    - prod
     
 pr: none
 
