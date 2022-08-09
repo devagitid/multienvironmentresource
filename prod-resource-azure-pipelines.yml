@@ -34,8 +34,8 @@ steps:
        backendServiceArm: 'Azure resource'
        backendAzureRmResourceGroupName: '$(backendrgname)'
        backendAzureRmStorageAccountName: '$(storageaccountname)'
-       backendAzureRmContainerName: '$(devstoragecontainername)'
-       backendAzureRmKey: '$(devblobkey)'
+       backendAzureRmContainerName: '$(prodstoragecontainername)'
+       backendAzureRmKey: '$(prodblobkey)'
 
     - task: TerraformTaskV3@3
       inputs:
