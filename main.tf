@@ -2,31 +2,31 @@ terraform {
   backend azurerm {}
 }
 
-resource "azurerm_resource_group" "databrrg" {
-name = "${var.environment}-rg"
-location = var.resource_location
-}
+#resource "azurerm_resource_group" "databrrg" {
+#name = "${var.environment}-rg"
+#location = var.resource_location
+#}
 
-resource "azurerm_databricks_workspace" "databr" {
-  name                = "databricks-${var.environment}"
-  resource_group_name = azurerm_resource_group.databrrg.name
-  location            = azurerm_resource_group.databrrg.location
-  sku                 = "standard"
+#resource "azurerm_databricks_workspace" "databr" {
+#  name                = "databricks-${var.environment}"
+#  resource_group_name = azurerm_resource_group.databrrg.name
+ # location            = azurerm_resource_group.databrrg.location
+#  sku                 = "standard"
 
-  tags = {
-    Environment = var.environment
-  }
-}
+ # tags = {
+  #  Environment = var.environment
+ # }
+#}
 
-data "databricks_node_type" "smallest" {
-  local_disk = true
-  depends_on = [azurerm_databricks_workspace.databr]
-}
+#data "databricks_node_type" "smallest" {
+ # local_disk = true
+ # depends_on = [azurerm_databricks_workspace.databr]
+#}
 
-data "databricks_spark_version" "latest_lts" {
-    long_term_support = true
-  depends_on = [azurerm_databricks_workspace.databr]
-}
+#data "databricks_spark_version" "latest_lts" {
+ #   long_term_support = true
+ # depends_on = [azurerm_databricks_workspace.databr]
+#}
 
 #resource "databricks_cluster" "multi_node" {
  # cluster_name            = "Multi Node"
@@ -46,54 +46,54 @@ data "databricks_spark_version" "latest_lts" {
 #depends_on = [azurerm_databricks_workspace.databr]
 #}
 
-resource "azuread_application" "example" {
-  display_name = "example"
+#resource "azuread_application" "example" {
+ # display_name = "example"
   #owners       = [var.object_id]
-}
+#}
 
-resource "azuread_service_principal" "example" {
- application_id               = azuread_application.example.application_id
-  app_role_assignment_required = false
+#resource "azuread_service_principal" "example" {
+# application_id               = azuread_application.example.application_id
+#  app_role_assignment_required = false
   #owners                       = [var.object_id]
-}
+#}
 
-resource "azurerm_key_vault" "kv" {
-  name                       = "${var.environment}keyvaultqw"
-  location                   = azurerm_resource_group.databrrg.location
-  resource_group_name        = azurerm_resource_group.databrrg.name
-  tenant_id                  = var.tenant_id
-  sku_name                   = "premium"
-  soft_delete_retention_days = 7
+#resource "azurerm_key_vault" "kv" {
+ # name                       = "${var.environment}keyvaultqw"
+ # location                   = azurerm_resource_group.databrrg.location
+ # resource_group_name        = azurerm_resource_group.databrrg.name
+ # tenant_id                  = var.tenant_id
+ # sku_name                   = "premium"
+ # soft_delete_retention_days = 7
 
 
-  access_policy {
+ # access_policy {
 
-    tenant_id               = var.tenant_id
-    object_id               = azuread_service_principal.example.object_id
-    key_permissions         = ["Get", "List"]
-    secret_permissions      = ["Get", "List"]
-    certificate_permissions = ["Get", "Import", "List"]
-    storage_permissions     = ["Backup", "Get", "List", "Recover"]
+  #  tenant_id               = var.tenant_id
+  #  object_id               = azuread_service_principal.example.object_id
+  #  key_permissions         = ["Get", "List"]
+  #  secret_permissions      = ["Get", "List"]
+  #  certificate_permissions = ["Get", "Import", "List"]
+  #  storage_permissions     = ["Backup", "Get", "List", "Recover"]
 
-  }
+ # }
   
-  access_policy {
+ # access_policy {
 
-    tenant_id               = var.tenant_id
-    object_id               = var.object_id
-    key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"]
-    secret_permissions      = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"]
-    certificate_permissions = ["Get", "Import", "List"]
-    storage_permissions     = ["Backup", "Get", "List", "Recover"]
+  #  tenant_id               = var.tenant_id
+  #  object_id               = var.object_id
+  #  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"]
+  #  secret_permissions      = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"]
+   # certificate_permissions = ["Get", "Import", "List"]
+   # storage_permissions     = ["Backup", "Get", "List", "Recover"]
 
-  }
+  #}
 
 
-}
+#}
 
-resource "azurerm_key_vault_secret" "kv" {
-  name         = "clientid"
-  value        = azuread_service_principal.example.application_id 
-  key_vault_id = azurerm_key_vault.kv.id
-  depends_on = [azurerm_key_vault.kv]
-}
+#resource "azurerm_key_vault_secret" "kv" {
+#  name         = "clientid"
+ # value        = azuread_service_principal.example.application_id 
+ # key_vault_id = azurerm_key_vault.kv.id
+ # depends_on = [azurerm_key_vault.kv]
+#}
