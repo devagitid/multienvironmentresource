@@ -5,7 +5,15 @@ trigger:
   branches:
    include:
    - master
-
+   
+  paths:
+    include:
+    - main.tf
+    - dev/dev.tfvars
+    exclude:
+    - prod
+    - test
+    
 pr: none
 
 pool:
