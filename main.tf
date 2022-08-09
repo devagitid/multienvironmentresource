@@ -47,7 +47,7 @@ terraform {
 #}
 
 #resource "azuread_application" "example" {
- # display_name = "example"
+ # display_name = "${var.environment}example"
   #owners       = [var.object_id]
 #}
 
