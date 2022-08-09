@@ -1,0 +1,57 @@
+variables:
+ - group : terraformvariables
+
+trigger:
+  branches:
+   include:
+   - master
+   
+  paths:
+    include:
+    - main.tf
+    - prod/prod.tfvars
+    exclude:
+    - dev
+    - test
+    
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+    - checkout: self
+
+      
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
+        
+    - task: TerraformTaskV3@3
+      inputs:
+       provider: 'azurerm'
+       command: 'init'
+       backendServiceArm: 'Azure resource'
+       backendAzureRmResourceGroupName: '$(backendrgname)'
+       backendAzureRmStorageAccountName: '$(storageaccountname)'
+       backendAzureRmContainerName: '$(devstoragecontainername)'
+       backendAzureRmKey: '$(devblobkey)'
+
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+    
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/prod/prod.tfvars"'
+        environmentServiceNameAzureRM: 'Azure resource'
+
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-input=false -var-file="$(System.DefaultWorkingDirectory)/prod/prod.tfvars"'
+        environmentServiceNameAzureRM: 'Azure resource'
