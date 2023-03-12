@@ -6,7 +6,7 @@ terraform {
 #name = "${var.environment}-rg"
 #location = var.resource_location
 #}
-
+#
 #resource "azurerm_databricks_workspace" "databr" {
 #  name                = "databricks-${var.environment}"
 #  resource_group_name = azurerm_resource_group.databrrg.name
